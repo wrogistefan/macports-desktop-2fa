@@ -12,7 +12,8 @@ homepage            https://github.com/wrogistefan/desktop-2fa
 master_sites        pypi:d/desktop-2fa/
 
 distname            desktop-2fa-${version}
-checksums           sha256 c6d0f4b1e0b1f6d1b3b4c7c8b1e8c1a2e0c9d8f8f4a2b0d4f7b8e3c1d2f9a0b
+checksums           sha256 e975c4dcd0531610c61acf0ae28babca4e87845c96fe7dbd45dbb13907a97f73
+
 
 python.default_version 311
 
