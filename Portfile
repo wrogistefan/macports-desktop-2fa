@@ -1,40 +1,36 @@
 PortSystem          1.0
-PortGroup           python 1.0
 
 name                desktop-2fa
-version             0.7.1
+version             0.7.2
 categories          security python
 platforms           darwin
 license             Apache-2.0
 maintainers         {lukaszperek @wrogistefan} openmaintainer
 description         Secure offline TOTP 2FA generator with encrypted vault
+long_description    ${description}
 homepage            https://github.com/wrogistefan/desktop-2fa
-master_sites        pypi:d/desktop-2fa/
-
-distname            desktop-2fa-${version}
-checksums           sha256 e975c4dcd0531610c61acf0ae28babca4e87845c96fe7dbd45dbb13907a97f73
 
 
-python.default_version 311
+master_sites        https://files.pythonhosted.org/packages/py3/d/desktop_2fa/
+distname            desktop_2fa-${version}-py3-none-any
+distfiles           ${distname}.whl
 
-depends_build-append \
-                    port:py311-pip \
-                    port:py311-setuptools \
-                    port:py311-wheel \
-                    port:py311-hatchling
+# Wstaw tu SHA256 wheel'a
+checksums           sha256 009C605476CD656EF9FD14A21CD2E61E1932881BD76458DF6A3161FCE95E9702
 
-depends_run-append \
-                    port:python311 \
-                    port:py311-argon2-cffi \
-                    port:py311-cryptography \
-                    port:py311-pydantic \
-                    port:py311-rich \
-                    port:py311-typer
+
+depends_run         port:python312 \
+                    port:pipx
 
 build {}
 
 destroot {
-    system "${python.bin} -m pip install --no-deps --prefix=${destroot}${prefix} ${worksrcpath}"
+    # Instalacja przez pipx (tak jak w Homebrew)
+    system "pipx install desktop-2fa==${version}"
+
+    # Wrapper d2fa
+    xinstall -m 755 ${filespath}/d2fa.sh ${destroot}${prefix}/bin/d2fa
 }
 
 livecheck.type      pypi
+
