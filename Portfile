@@ -1,0 +1,39 @@
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                desktop-2fa
+version             0.7.1
+categories          security python
+platforms           darwin
+license             Apache-2.0
+maintainers         {lukaszperek @wrogistefan} openmaintainer
+description         Secure offline TOTP 2FA generator with encrypted vault
+homepage            https://github.com/wrogistefan/desktop-2fa
+master_sites        pypi:d/desktop-2fa/
+
+distname            desktop-2fa-${version}
+checksums           sha256 c6d0f4b1e0b1f6d1b3b4c7c8b1e8c1a2e0c9d8f8f4a2b0d4f7b8e3c1d2f9a0b
+
+python.default_version 311
+
+depends_build-append \
+                    port:py311-pip \
+                    port:py311-setuptools \
+                    port:py311-wheel \
+                    port:py311-hatchling
+
+depends_run-append \
+                    port:python311 \
+                    port:py311-argon2-cffi \
+                    port:py311-cryptography \
+                    port:py311-pydantic \
+                    port:py311-rich \
+                    port:py311-typer
+
+build {}
+
+destroot {
+    system "${python.bin} -m pip install --no-deps --prefix=${destroot}${prefix} ${worksrcpath}"
+}
+
+livecheck.type      pypi
